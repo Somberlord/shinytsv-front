@@ -1,6 +1,7 @@
 import React from 'react';
 import Playerlist from './Playerlist'
 import Tsvlist from './Tsvlist'
+import Tsvdetails from './Tsvdetails'
 import axios from 'axios';
 
 class Tsvdisplay extends React.Component {
@@ -8,26 +9,37 @@ class Tsvdisplay extends React.Component {
         super(props);
         this.state = {
             playerlist: [],
-            tsvdata: [],
             activePlayer: null,
+            tsvdata: [],
+            activetsv: null,
         }
         axios.get('http://localhost:3001/users')
            .then(response => {
-               console.log(response);
                var state = Object.assign({}, this.state, {playerlist: response.data});
                this.setState(state);
            });
 
         this.playerSelected = this.playerSelected.bind(this);
+        this.handleTsvClick = this.handleTsvClick.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
     }
 
     playerSelected(event) {
-        axios.get('http://localhost:3001/tsvlist/' + event.target.value)
+        const playerid = event.target.value;
+        axios.get('http://localhost:3001/tsvlist/' + playerid)
             .then(response => {
-                console.log(response);
-                var state = Object.assign({}, this.state, {tsvdata: response.data});
+                var state = Object.assign({}, this.state, {tsvdata: response.data, activePlayer:playerid});
                 this.setState(state);
             });
+    }
+
+    handleTsvClick(tsvid) {
+        var state = Object.assign({}, this.state, {activetsv: tsvid});
+        this.setState(state);
+    }
+
+    handleCloseModal(event) {
+        this.handleTsvClick(null);
     }
 
     render() {
@@ -35,7 +47,8 @@ class Tsvdisplay extends React.Component {
             <section className="section">
                 <div className="container">
                     <Playerlist playerlist={this.state.playerlist} onChange={this.playerSelected} />
-                    <Tsvlist tsvdata={this.state.tsvdata} />
+                    <Tsvlist tsvdata={this.state.tsvdata} onTsvClick={this.handleTsvClick} activetsv={this.state.activetsv} />
+                    <Tsvdetails tsvid={this.state.activetsv} tsvdata={this.state.tsvdata} onclose={this.handleCloseModal} />
                 </div>
             </section>
         );

@@ -3,8 +3,12 @@ import React from 'react';
 function Tsvlist(props) {
 
     const tsvdata = props.tsvdata.map((tsv) => {
+        let selectedClass="";
+        if(tsv.uid === props.activetsv) {
+            selectedClass = "is-selected";
+        }
         return (
-            <tr key={tsv.uid}>
+            <tr key={tsv.uid} className={selectedClass} onClick={() => props.onTsvClick(tsv.uid)}>
                 <td>{tsv.name}</td>
                 <td>{tsv.gender}</td>
                 <td>{tsv.nature}</td>
