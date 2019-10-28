@@ -2,16 +2,16 @@ import React from 'react';
 
 function Navbar(props) {
     return (
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
+        <nav className="navbar" role="navigation" aria-label="main navigation">
+            <div className="navbar-brand">
             </div>
-            <div class="navbar-menu is-active">
-                <div class="navbar-start">
-                        <a class="navbar-item" href="/">Accueil</a>
-                        <a class="navbar-item" href="/">TSV</a>
+            <div className="navbar-menu is-active">
+                <div className="navbar-start">
+                        <a className="navbar-item" href="/">Accueil</a>
+                        <a className="navbar-item" href="/">TSV</a>
                 </div>
-                <div class="navbar-end">
-                    <a class="navbar-item" href="/">Connexion</a>
+                <div className="navbar-end">
+                    <a className="navbar-item" href="/">Connexion</a>
                 </div>
             </div>
         </nav>

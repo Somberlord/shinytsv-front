@@ -1,22 +1,40 @@
 import React from 'react';
 import Playerlist from './Playerlist'
 import Tsvlist from './Tsvlist'
+import axios from 'axios';
 
 class Tsvdisplay extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            playerlist: ["Capture", "Somberlord", "TinyDoowy"],
-            tsvdata: [{name: 'Zorua', gender: 'M', nature: 'Modeste', ability: 'Illusion', ball: 'Honor Ball', lp: 31, atk: 31, def: 31, spatk: 31, spdef: 31, spe: 31, hp: 'Dark', atk1: 'Tricherie', atk2: 'Coup Bas', atk3: 'Danse lames', atk4: 'Machination'},{name: 'Zorua', gender: 'M', nature: 'Modeste', ability: 'Illusion', ball: 'Honor Ball', lp: 31, atk: 31, def: 31, spatk: 31, spdef: 31, spe: 31, hp: 'Dark', atk1: 'Tricherie', atk2: 'Coup Bas', atk3: 'Danse lames', atk4: 'Machination'},{name: 'Zorua', gender: 'M', nature: 'Modeste', ability: 'Illusion', ball: 'Honor Ball', lp: 31, atk: 31, def: 31, spatk: 31, spdef: 31, spe: 31, hp: 'Dark', atk1: 'Tricherie', atk2: 'Coup Bas', atk3: 'Danse lames', atk4: 'Machination'},{name: 'Zorua', gender: 'M', nature: 'Modeste', ability: 'Illusion', ball: 'Honor Ball', lp: 31, atk: 31, def: 31, spatk: 31, spdef: 31, spe: 31, hp: 'Dark', atk1: 'Tricherie', atk2: 'Coup Bas', atk3: 'Danse lames', atk4: 'Machination'}],
+            playerlist: [],
+            tsvdata: [],
             activePlayer: null,
         }
+        axios.get('http://localhost:3001/users')
+           .then(response => {
+               console.log(response);
+               var state = Object.assign({}, this.state, {playerlist: response.data});
+               this.setState(state);
+           });
+
+        this.playerSelected = this.playerSelected.bind(this);
+    }
+
+    playerSelected(event) {
+        axios.get('http://localhost:3001/tsvlist/' + event.target.value)
+            .then(response => {
+                console.log(response);
+                var state = Object.assign({}, this.state, {tsvdata: response.data});
+                this.setState(state);
+            });
     }
 
     render() {
         return (
             <section className="section">
                 <div className="container">
-                    <Playerlist playerlist={this.state.playerlist} />
+                    <Playerlist playerlist={this.state.playerlist} onChange={this.playerSelected} />
                     <Tsvlist tsvdata={this.state.tsvdata} />
                 </div>
             </section>

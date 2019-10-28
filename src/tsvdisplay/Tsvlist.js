@@ -47,7 +47,7 @@ function Tsvlist(props) {
     );
 
     return (
-        <table class="table is-hoverable">
+        <table className="table is-hoverable">
             <thead>
                 {headers}
             </thead>

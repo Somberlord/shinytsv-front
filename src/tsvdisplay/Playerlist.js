@@ -9,14 +9,14 @@ function Playerlist(props) {
     });
 
     return (
-        <div class="field is-horizontal">
-                <div class="field-label is-normal">
+        <div className="field is-horizontal">
+                <div className="field-label is-normal">
                     Sélection du joueur
                 </div>
-                <div class="field-body">
-                    <div class="control">
-                        <div class="select is-fullwidth">
-                            <select>
+                <div className="field-body">
+                    <div className="control">
+                        <div className="select is-fullwidth">
+                            <select onChange={props.onChange}>
                                 <option></option>
                                 {players}
                             </select>
