@@ -4,7 +4,7 @@ function Tsvlist(props) {
 
     const tsvdata = props.tsvdata.map((tsv) => {
         return (
-            <tr>
+            <tr key={tsv.uid}>
                 <td>{tsv.name}</td>
                 <td>{tsv.gender}</td>
                 <td>{tsv.nature}</td>

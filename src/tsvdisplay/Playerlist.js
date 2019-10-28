@@ -4,7 +4,7 @@ function Playerlist(props) {
 
     const players = props.playerlist.map((player) => {
         return (
-            <option>{player}</option>
+            <option value={player.id} key={player.id}>{player.name}</option>
         )
     });
 
