@@ -1,10 +1,11 @@
 import React from 'react';
-import Hero from './common/Hero'
-import Tsvdisplay from './tsvdisplay/Tsvdisplay'
-import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
+import Hero from './common/Hero';
+import Tsvdisplay from './tsvdisplay/Tsvdisplay';
+import Admin from './admin/Admin';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import './App.sass';
 import './App.css';
-import Notfound from './common/notfound'
+import Notfound from './common/notfound';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/" component={Tsvdisplay} />
+          <Route path="/admin" component={Admin} />
           <Route component={Notfound} />
         </Switch>
       </Router>
