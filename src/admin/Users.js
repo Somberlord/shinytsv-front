@@ -12,17 +12,38 @@ class Users extends React.Component {
             activeUser: null,
             newplayeractive: false,
         }
+    
+        this.toggleNewPlayer = this.toggleNewPlayer.bind(this);
+        this.addPlayer = this.addPlayer.bind(this);
+        this.loadPlayers = this.loadPlayers.bind(this);
+
+        this.loadPlayers();
+    }
+
+    loadPlayers() {
         axios.get('http://localhost:3001/users')
            .then(response => {
                var state = Object.assign({}, this.state, {userList: response.data});
                this.setState(state);
            });
-           this.toggleNewPlayer = this.toggleNewPlayer.bind(this);
     }
 
     toggleNewPlayer(event) {
         var state = Object.assign({}, this.state, {newplayeractive: !this.state.newplayeractive});
         this.setState(state);
+    }
+
+    addPlayer(values) {
+        //event.preventDefault();
+        // todo axios post
+        console.log("axios post " + values);
+        console.log(values);
+        this.toggleNewPlayer(null);
+        axios.post('http://localhost:3001/users', {values})
+            .then(response => {
+                console.log(response);
+                this.loadPlayers();
+            });
     }
 
     render() {
@@ -35,7 +56,7 @@ class Users extends React.Component {
                         </button>
                     </div>
                     <UsersList usersList={this.state.userList}/>
-                    <AddUser active={this.state.newplayeractive} onclose={this.toggleNewPlayer}/>
+                    <AddUser active={this.state.newplayeractive} onclose={this.toggleNewPlayer} onsubmit={this.addPlayer} />
                 </div>
             </section>
                 
