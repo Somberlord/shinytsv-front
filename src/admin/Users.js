@@ -1,6 +1,6 @@
 import React from 'react';
 import UsersList from './UsersList';
-import AddUser from './AddUser';
+import AdduserModal from './AddUser';
 import axios from 'axios';
 
 class Users extends React.Component {
@@ -10,12 +10,13 @@ class Users extends React.Component {
         this.state = {
             userList: [],
             activeUser: null,
-            newplayeractive: false,
+            modalactive: false,
         }
     
-        this.toggleNewPlayer = this.toggleNewPlayer.bind(this);
-        this.addPlayer = this.addPlayer.bind(this);
+        this.toggleNewPlayer = this.toggleModal.bind(this);
+        this.addOrUpdatePlayer = this.addOrUpdatePlayer.bind(this);
         this.loadPlayers = this.loadPlayers.bind(this);
+        this.editPlayer = this.editPlayer.bind(this);
 
         this.loadPlayers();
     }
@@ -28,35 +29,41 @@ class Users extends React.Component {
            });
     }
 
-    toggleNewPlayer(event) {
-        var state = Object.assign({}, this.state, {newplayeractive: !this.state.newplayeractive});
+    toggleModal(val, user) {
+        var state = Object.assign({}, this.state, {modalactive: val, activeUser: user});
         this.setState(state);
     }
 
-    addPlayer(values) {
-        //event.preventDefault();
-        // todo axios post
-        console.log("axios post " + values);
-        console.log(values);
-        this.toggleNewPlayer(null);
+    addOrUpdatePlayer(values) {
+        this.toggleModal(false);
         axios.post('http://localhost:3001/users', {values})
             .then(response => {
-                console.log(response);
                 this.loadPlayers();
             });
     }
+
+    editPlayer(user) {
+        console.log(user);
+        this.toggleModal(true, user);
+    }
+    
 
     render() {
         return (
             <section className="section">
                 <div className="container">
                     <div className="buttons">
-                        <button className="button is-link" onClick={this.toggleNewPlayer}>
+                        <button className="button is-link" onClick={() => this.toggleModal(true, null)}>
                             Ajouter un nouveau joueur
                         </button>
                     </div>
-                    <UsersList usersList={this.state.userList}/>
-                    <AddUser active={this.state.newplayeractive} onclose={this.toggleNewPlayer} onsubmit={this.addPlayer} />
+                    <UsersList usersList={this.state.userList} 
+                                activeuser={this.state.activeUser} 
+                                edit={this.editPlayer}/>
+                    <AdduserModal active={this.state.modalactive} 
+                                    onclose={() => this.toggleModal(false, null)} 
+                                    onsubmit={this.addOrUpdatePlayer} 
+                                    user={this.state.activeUser} />
                 </div>
             </section>
                 

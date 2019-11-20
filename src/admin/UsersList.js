@@ -4,9 +4,12 @@ function UsersList(props) {
 
     const usersdata = props.usersList.map((user) => {
         let selectedClass="";
-        /*if(user.uid === props.activeuser) {
+        if(user === null) {
+            return <></>
+        }
+        if( props.activeuser !== null && props.activeuser !== undefined && user.id === props.activeuser.id) {
             selectedClass = "is-selected";
-        }*/
+        }
         return (
             <tr key={user.id} className={selectedClass}>
                 <td>{user.name}</td>
@@ -17,6 +20,7 @@ function UsersList(props) {
                 <td>{user.status}</td>
                 <td>{user.friendcode}</td>
                 <td>{user.note}</td>
+                <td><span className="icon" onClick={() => props.edit(user)}><i className="fas fa-edit" /></span></td>
             </tr>
         )
     });
@@ -31,6 +35,7 @@ function UsersList(props) {
             <th>Statut</th>
             <th width="190px">Code ami</th>
             <th>Commentaire</th>
+            <th></th>
         </tr>
     );
 
