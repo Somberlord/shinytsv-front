@@ -2,6 +2,7 @@ import React from 'react';
 import UsersList from './UsersList';
 import AdduserModal from './AddUser';
 import axios from 'axios';
+import config from '../config/config';
 
 class Users extends React.Component {
 
@@ -22,7 +23,7 @@ class Users extends React.Component {
     }
 
     loadPlayers() {
-        axios.get('http://localhost:3001/users')
+        axios.get(config.host + '/users')
            .then(response => {
                var state = Object.assign({}, this.state, {userList: response.data});
                this.setState(state);
@@ -36,7 +37,7 @@ class Users extends React.Component {
 
     addOrUpdatePlayer(values) {
         this.toggleModal(false);
-        axios.post('http://localhost:3001/users', {values})
+        axios.post(config.host + '/users', {values})
             .then(response => {
                 this.loadPlayers();
             });

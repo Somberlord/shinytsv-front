@@ -3,6 +3,7 @@ import Playerlist from './Playerlist'
 import Tsvlist from './Tsvlist'
 import Tsvdetails from './Tsvdetails'
 import axios from 'axios';
+import config from '../config/config';
 
 class Tsvdisplay extends React.Component {
     constructor(props) {
@@ -13,7 +14,7 @@ class Tsvdisplay extends React.Component {
             tsvdata: [],
             activetsv: null,
         }
-        axios.get('http://localhost:3001/users')
+        axios.get(config.host + '/users')
            .then(response => {
                var state = Object.assign({}, this.state, {playerlist: response.data});
                this.setState(state);
@@ -26,7 +27,7 @@ class Tsvdisplay extends React.Component {
 
     playerSelected(event) {
         const playerid = event.target.value;
-        axios.get('http://localhost:3001/tsvlist/' + playerid)
+        axios.get(config.host + '/tsvlist/' + playerid)
             .then(response => {
                 var state = Object.assign({}, this.state, {tsvdata: response.data, activePlayer:playerid});
                 this.setState(state);
